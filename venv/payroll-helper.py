@@ -97,6 +97,7 @@ class Ui_Form(object):
         file_path = self.filePath.text()
         data = pd.read_csv(file_path)
         index = int(self.indexStart.text())
+        result = self.textEdit.get
 
         pay_date = "bodyContent_PayCalendarGridView_GridView_columnDatePicker_PayDate_"  # Pay Date ID
         processing_date = "bodyContent_PayCalendarGridView_GridView_columnDatePicker_DeductionDate_"  # Processing date ID
@@ -114,7 +115,9 @@ class Ui_Form(object):
                 value = f"document.getElementById(\"{processing_date + str(index + y - 1)}\").value = \"{processing}\";"
                 self.textEdit.append(value)
             break
-
+        
+        pyperclip.copy(result)
+        
 
 if __name__ == "__main__":
     import sys

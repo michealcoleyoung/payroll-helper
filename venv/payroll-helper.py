@@ -42,9 +42,17 @@ class Ui_Form(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         self.createPayroll.setFont(font)
-        self.createPayroll.setStyleSheet("background-color: #262625;\n"
+        self.createPayroll.setStyleSheet("QPushButton {\n"
+"background-color: #3B3B39;\n"
 "border-radius: 5%;\n"
-"font-size: 20px;")
+"font-size: 20px;\n"
+"}\n"
+"\n"
+"QPushButton:!pressed\n"
+"{\n"
+"background-color: #262625;\n"
+"}\n"
+"")
         self.createPayroll.setAutoDefault(False)
         self.createPayroll.setFlat(False)
         self.createPayroll.setObjectName("createPayroll")
@@ -64,8 +72,16 @@ class Ui_Form(object):
         font.setBold(False)
         font.setWeight(50)
         self.chooseFile.setFont(font)
-        self.chooseFile.setStyleSheet("background-color: #262625;\n"
-"border-radius: 5%;")
+        self.chooseFile.setStyleSheet("QPushButton {\n"
+"background-color: #3B3B39;\n"
+"border-radius: 5%;\n"
+"}\n"
+"\n"
+"QPushButton:!pressed\n"
+"{\n"
+"background-color: #262625;\n"
+"}\n"
+"")
         self.chooseFile.setObjectName("chooseFile")
 
         self.retranslateUi(Form)
@@ -91,13 +107,18 @@ class Ui_Form(object):
         file = QFileDialog.getOpenFileName()
         self.filePath.setText(str(file[0]))
 
+        if file == '':
+            print("There is no file attached")
+        else:
+            print("There is a file attached")
+
 
     def create_payroll(self):
         self.textEdit.clear()
         file_path = self.filePath.text()
         data = pd.read_csv(file_path)
         index = int(self.indexStart.text())
-        result = self.textEdit.get
+        # result = self.textEdit.get
 
         pay_date = "bodyContent_PayCalendarGridView_GridView_columnDatePicker_PayDate_"  # Pay Date ID
         processing_date = "bodyContent_PayCalendarGridView_GridView_columnDatePicker_DeductionDate_"  # Processing date ID
@@ -116,7 +137,7 @@ class Ui_Form(object):
                 self.textEdit.append(value)
             break
         
-        pyperclip.copy(result)
+        # pyperclip.copy(result)
         
 
 if __name__ == "__main__":

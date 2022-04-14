@@ -28,15 +28,17 @@ class Ui_Form(object):
 "border: 2px solid #B0C6D9;\n"
 "color: black;")
         self.filePath.setObjectName("filePath")
+        self.filePath.setReadOnly(True)
+        self.filePath.setPlaceholderText("Select file path from here")
         self.indexStart = QtWidgets.QLineEdit(Form)
         self.indexStart.setGeometry(QtCore.QRect(30, 70, 441, 41))
         self.indexStart.setAutoFillBackground(False)
         self.indexStart.setStyleSheet("background: white;\n"
 "border: 2px solid #B0C6D9;\n"
 "color: black;")
-        self.indexStart.setText("")
         self.indexStart.setClearButtonEnabled(False)
         self.indexStart.setObjectName("indexStart")
+        self.indexStart.setPlaceholderText("Index start number")
         self.createPayroll = QtWidgets.QPushButton(Form)
         self.createPayroll.setGeometry(QtCore.QRect(30, 120, 441, 61))
         font = QtGui.QFont()
@@ -82,6 +84,7 @@ class Ui_Form(object):
 "background-color: #262625;\n"
 "}\n"
 "")
+
         self.chooseFile.setObjectName("chooseFile")
 
         self.retranslateUi(Form)
@@ -107,39 +110,52 @@ class Ui_Form(object):
         file = QFileDialog.getOpenFileName()
         self.filePath.setText(str(file[0]))
 
-        if file == '':
-            print("There is no file attached")
-        else:
-            print("There is a file attached")
-
 
     def create_payroll(self):
         self.textEdit.clear()
         file_path = self.filePath.text()
         data = pd.read_csv(file_path)
         index = int(self.indexStart.text())
-        # result = self.textEdit.get
 
         pay_date = "bodyContent_PayCalendarGridView_GridView_columnDatePicker_PayDate_"  # Pay Date ID
         processing_date = "bodyContent_PayCalendarGridView_GridView_columnDatePicker_DeductionDate_"  # Processing date ID
 
-        for x in range(index):
-            for pay in data['Pay Date']:
-                x = x + 1
-                value = f"document.getElementById(\"{pay_date + str(index + x - 1)}\").value = \"{pay}\";"
-                self.textEdit.append(value)
-            break
+        if index == None:
+            print("Nothing here")
 
-        for y in range(index):
-            for processing in data['Processing Date']:
-                y = y + 1
-                value = f"document.getElementById(\"{processing_date + str(index + y - 1)}\").value = \"{processing}\";"
-                self.textEdit.append(value)
-            break
-        
-        # pyperclip.copy(result)
-        
+        if index == 0:
+            for x in range(index, len(data['Pay Date'])):
+                for pay in data['Pay Date']:
+                    x = x + 1
+                    value = f"document.getElementById(\"{pay_date + str(index + x - 1)}\").value = \"{pay}\";"
+                    self.textEdit.append(value)
+                break
 
+            for y in range(index, len(data['Processing Date'])):
+                for processing in data['Processing Date']:
+                    y = y + 1
+                    value = f"document.getElementById(\"{processing_date + str(index + y - 1)}\").value = \"{processing}\";"
+                    self.textEdit.append(value)
+                break
+        else:
+            for x in range(index):
+                for pay in data['Pay Date']:
+                    x = x + 1
+                    value = f"document.getElementById(\"{pay_date + str(index + x - 1)}\").value = \"{pay}\";"
+                    self.textEdit.append(value)
+                break
+
+            for y in range(index):
+                for processing in data['Processing Date']:
+                    y = y + 1
+                    value = f"document.getElementById(\"{processing_date + str(index + y - 1)}\").value = \"{processing}\";"
+                    self.textEdit.append(value)
+                break
+
+        pyperclip.copy(self.textEdit.toPlainText())
+
+
+        
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

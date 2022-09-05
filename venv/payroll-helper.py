@@ -117,8 +117,8 @@ class Ui_Form(object):
         data = pd.read_csv(file_path)
         index = int(self.indexStart.text())
 
-        pay_date = "bodyContent_PayCalendarGridView_GridView_columnDatePicker_PayDate_"  # Pay Date ID
-        processing_date = "bodyContent_PayCalendarGridView_GridView_columnDatePicker_DeductionDate_"  # Processing date ID
+        pay_date = "payDate_"  # Pay Date ID
+        processing_date = "deductionDate_"  # Processing date ID
 
         if index == None:
             print("Nothing here")
